@@ -1,5 +1,6 @@
 use std::io::Error;
-use arithmetic_coding::{decode_routine, encode_routine};
+
+use simple_arithmetic_coding::{decode_routine, encode_routine};
 
 fn cmd_err () -> Result<(),Error> {
     Err(std::io::Error::new(std::io::ErrorKind::InvalidInput, "Usage: <bin_name> [-e | -d] --"))
