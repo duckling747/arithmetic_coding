@@ -1,0 +1,14 @@
+[package]
+name = "arithmetic-coding"
+authors = ["Arttu Mykkänen"]
+description = "Arithmetic coding, directly derived from the well-known CACM87 C-language implementation."
+rust-version = "1.79"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+keywords = ["entropy coding", "arithmetic coding", "CACM87"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+num-traits = "*"
