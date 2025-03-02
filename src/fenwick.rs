@@ -35,7 +35,7 @@ where T: PrimInt + AddAssign + SubAssign + From<u8>
     }
 
     pub fn sum(&self, mut i: usize) -> T {
-        assert!(i < self.tree.len()-1);
+        debug_assert!(i < self.tree.len()-1);
         let mut ret: T = 0.into();
         i+=1;
         while i > 0 {
@@ -46,7 +46,7 @@ where T: PrimInt + AddAssign + SubAssign + From<u8>
     }
 
     pub fn add(&mut self, mut i: usize, amt: T) -> () {
-        assert!(i < self.tree.len()-1);
+        debug_assert!(i < self.tree.len()-1);
         i+=1;
         while i < self.tree.len() {
             self.tree[i] += amt;
@@ -55,7 +55,7 @@ where T: PrimInt + AddAssign + SubAssign + From<u8>
     }
 
     pub fn sub(&mut self, mut i: usize, amt: T) -> () {
-        assert!(i < self.tree.len()-1);
+        debug_assert!(i < self.tree.len()-1);
         i+=1;
         while i < self.tree.len() {
             self.tree[i] -= amt;
@@ -64,7 +64,7 @@ where T: PrimInt + AddAssign + SubAssign + From<u8>
     }
 
     pub fn freq(&self, mut i: usize) -> T {
-        assert!(i < self.tree.len()-1);
+        debug_assert!(i < self.tree.len()-1);
         i+=1;
         let mut ret: T = self.tree[i];
         let z = i - lsb(i);

@@ -76,7 +76,7 @@ impl <'a, O> Output <'a, O>
 where O: Write
 {
     pub fn new(output_handle: &'a mut O, buffer_capacity: usize) -> Self {
-        assert!(buffer_capacity % 8 == 0);
+        debug_assert!(buffer_capacity % 8 == 0);
         Output {
             output_handle,
             output_bits: BitVec::with_capacity(buffer_capacity)
@@ -120,22 +120,21 @@ where O: Write
 
 #[cfg(test)]
 mod tests {
-    use std::io::Read;
+    use std::io::{Read, Seek};
 
     use super::*;
     #[test]
     fn test_input() {
         let file = std::fs::File::open("./war_and_peace.txt").unwrap();
-        let bufreader = std::io::BufReader::new(file);
-        let mut input = Input::new(bufreader).unwrap();
+        let mut bufreader = std::io::BufReader::new(&file);
+        let mut input = Input::new(&mut bufreader).unwrap();
         let mut bytes_a: Vec<u8> = Vec::new();
         while let Some(b) = input.next_byte().unwrap() {
             bytes_a.push(b);
         }
 
         let mut bytes_b: Vec<u8> = Vec::new();
-        let file = std::fs::File::open("./war_and_peace.txt").unwrap();
-        let bufreader = std::io::BufReader::new(file);
+        bufreader.rewind().unwrap();
         for b in bufreader.bytes() {
             bytes_b.push(b.unwrap());
         }

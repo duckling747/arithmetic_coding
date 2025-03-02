@@ -36,7 +36,7 @@ impl BitVec {
     }
 
     pub fn push (&mut self, bit: bool) -> () {
-        assert!(self.i < self.capacity());
+        debug_assert!(self.i < self.capacity());
         let bit = bit as u64;
         self.data[self.i/64] |= bit << self.i%64;
         self.i+=1;

@@ -11,7 +11,7 @@ const THIRD_QTR: Value = 3 * FIRST_QTR;
 
 const MAX_FREQUENCY: Value = (u16::max_value()>>2) as Value;
 
-pub struct ArithmeticEncoder<Value>
+pub struct ArithmeticEncoder<Value = u32>
 where Value: PrimInt
 {
     model: FenwickTree<Value>,
@@ -86,7 +86,7 @@ impl ArithmeticEncoder<Value>
     }
 }
 
-pub struct ArithmeticDecoder<Value>
+pub struct ArithmeticDecoder<Value = u32>
 where Value: PrimInt
 {
     model: FenwickTree<Value>,
