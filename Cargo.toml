@@ -3,7 +3,7 @@ name = "simple-arithmetic-coding"
 authors = ["Arttu Mykkänen"]
 description = "Arithmetic coding, directly derived from the well-known CACM87 C-language implementation."
 rust-version = "1.79"
-version = "0.2.0"
+version = "0.2.1"
 edition = "2021"
 license = "MIT"
 keywords = ["entropy", "coding", "arithmetic", "CACM87", "lossless"]
@@ -12,3 +12,5 @@ keywords = ["entropy", "coding", "arithmetic", "CACM87", "lossless"]
 
 [dependencies]
 num-traits = "0.2"
+[dev-dependencies]
+rand = "0.9.0"

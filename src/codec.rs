@@ -40,7 +40,10 @@ impl ArithmeticEncoder<Value>
 
     pub fn encode(&mut self, s: usize, bits_out: &mut impl io::Push) -> Result<(), std::io::Error>
     {
-        let lower = self.model.sum(s-1);
+        let lower = match s.checked_sub(1) {
+            Some(a) => self.model.sum(a),
+            None => 0
+        };
         let upper = self.model.sum(s);
         let denom = self.model.total();
 
@@ -132,7 +135,10 @@ impl ArithmeticDecoder<Value>
         let cum = (((self.value - self.low) + 1) * denom - 1) / range;
         let s = self.model.upper(cum);
         let upper = self.model.sum(s);
-        let lower = self.model.sum(s-1);
+        let lower = match s.checked_sub(1) {
+            Some(a) => self.model.sum(a),
+            None => 0
+        };
 
         self.high = self.low + (range * upper) / denom - 1;
         self.low  = self.low + (range * lower) / denom;
