@@ -82,19 +82,12 @@ where O: Write
             output_bits: BitVec::with_capacity(buffer_capacity)
         }
     }
-
-    pub fn flush (&mut self) -> Result<(), std::io::Error> {
-        if !self.output_bits.is_empty() {
-            self.output_handle.write_all(&self.output_bits.get_bytes())?;
-            self.output_bits.clear();
-        }
-        Ok(())
-    }
 }
 
 pub trait Push {
     fn push_bit(&mut self, bit: bool) -> Result<(), std::io::Error>;
     fn push_byte(&mut self, byte: u8) -> Result<(), std::io::Error>;
+    fn flush (&mut self) -> Result<(), std::io::Error>;
 }
 
 impl<'a, O> Push for Output<'a, O>
@@ -113,6 +106,14 @@ where O: Write
     {
         for shft in (0..8).rev() {
             self.push_bit(((byte >> shft) & 1) != 0)?;
+        }
+        Ok(())
+    }
+    fn flush (&mut self) -> Result<(), std::io::Error>
+    {
+        if !self.output_bits.is_empty() {
+            self.output_handle.write_all(&self.output_bits.get_bytes())?;
+            self.output_bits.clear();
         }
         Ok(())
     }

@@ -134,7 +134,32 @@ fn test_compress_0_max_same_ratio() {
 
     assert_eq!(arienc_0.len(), arienc_max.len());
 }
+#[test]
+fn test_compress_mixed_same_ratio() {
+    let amt = 187_000;
 
+    let mut v_max = repeat(u8::max_value())
+        .take(amt)
+        .collect::<Vec<u8>>();
+
+    v_max.extend(repeat(155u8).take(100_000));
+
+    let mut v_0 = repeat(0)
+        .take(amt)
+        .collect::<Vec<u8>>();
+
+    v_0.extend(repeat(20u8).take(100_000));
+
+    let arienc_max = ArithmeticStreamEncoder::new(&mut &v_max[..])
+        .unwrap()
+        .collect::<Vec<u8>>();
+
+    let arienc_0 = ArithmeticStreamEncoder::new(&mut &v_0[..])
+        .unwrap()
+        .collect::<Vec<u8>>();
+
+    assert_eq!(arienc_0.len(), arienc_max.len());
+}
 
 
 

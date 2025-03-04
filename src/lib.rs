@@ -16,7 +16,7 @@ const EOF: usize = 256;
 const BUFFER_SIZE: usize = 16000;
 
 /**
- * The encoding routine for arithmetic coding. Takes an input and and output.
+ * The encoding routine for arithmetic coding. Takes an input and an output.
  */
 pub fn encode_routine<I,O> (input_handle: &mut I, output_handle: &mut O) -> Result<(), std::io::Error>
 where I: BufRead, O: Write
@@ -113,13 +113,6 @@ impl SmallBuffer {
             eof: false,
         }
     }
-    fn flush (&mut self) -> Result<(), std::io::Error> {
-        if !self.data.is_empty() {
-            self.q.write_all(&self.data.get_bytes())?;
-            self.data.clear();
-        }
-        Ok(())
-    }
 }
 
 impl Push for SmallBuffer {
@@ -133,6 +126,13 @@ impl Push for SmallBuffer {
     fn push_byte(&mut self, byte: u8) -> Result<(), std::io::Error> {
         for i in (0..8).rev() {
             self.data.push(((byte >> i) & 1) != 0);
+        }
+        Ok(())
+    }
+    fn flush (&mut self) -> Result<(), std::io::Error> {
+        if !self.data.is_empty() {
+            self.q.write_all(&self.data.get_bytes())?;
+            self.data.clear();
         }
         Ok(())
     }
