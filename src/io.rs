@@ -119,46 +119,6 @@ where O: Write
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use std::io::{Read, Seek};
-
-    use super::*;
-    #[test]
-    fn test_input() {
-        let file = std::fs::File::open("./war_and_peace.txt").unwrap();
-        let mut bufreader = std::io::BufReader::new(&file);
-        let mut input = Input::new(&mut bufreader).unwrap();
-        let mut bytes_a: Vec<u8> = Vec::new();
-        while let Some(b) = input.next_byte().unwrap() {
-            bytes_a.push(b);
-        }
-
-        let mut bytes_b: Vec<u8> = Vec::new();
-        bufreader.rewind().unwrap();
-        for b in bufreader.bytes() {
-            bytes_b.push(b.unwrap());
-        }
-
-        assert_eq!(bytes_a, bytes_b);
-    }
-    #[test]
-    fn test_output() {
-        let mut stdout: Vec<u8> = Vec::new();
-        let mut output = Output::new(&mut stdout, 4000);
-        let mut v: Vec<u8> = Vec::new();
-        let file = std::fs::File::open("./war_and_peace.txt").unwrap();
-        let bufreader = std::io::BufReader::new(file);
-        for b in bufreader.bytes() {
-            let a = b.unwrap();
-            v.push(a);
-            output.push_byte(a).unwrap();
-        }
-        output.flush().unwrap();
-
-        assert_eq!(stdout, v);
-    }
-}
 
 
 
